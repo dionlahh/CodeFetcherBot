@@ -7,7 +7,8 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV TZ=Asia/Singapore  # Set timezone for container
+# Set timezone for container
+ENV TZ=Asia/Singapore
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
