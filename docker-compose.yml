@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  telegram-email-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram-email-bot
+    restart: unless-stopped
+    volumes:
+      # Mount the configuration file
+      - ./config.properties:/app/config.properties:ro
+      # Optional: Mount logs directory
+      - ./logs:/app/logs
+    environment:
+      # Optional: Override config with environment variables
+      - PYTHONUNBUFFERED=1
+    networks:
+      - telegram-bot-network
+    # Optional: Add resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+        reservations:
+          memory: 128M
+          cpus: "0.25"
+    # Optional: Add health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  telegram-bot-network:
+    driver: bridge
+
+# Optional: Add volumes for persistent data
+volumes:
+  bot-logs:
+    driver: local

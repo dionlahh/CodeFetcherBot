@@ -1,0 +1,36 @@
+# Telegram Email Bot Configuration
+# =================================
+# Configuration file for the Telegram Email Bot Docker service
+# Copy this file to config.properties and fill in your actual values
+
+# Telegram Bot Configuration
+# Get your bot token from @BotFather on Telegram
+telegram.bot.token=YOUR_BOT_TOKEN_HERE
+
+# Email Server Configuration
+# IMAP server settings for your email provider
+email.server=imap.gmail.com
+email.port=993
+email.use_ssl=true
+
+# Email Account Credentials
+# Use app-specific passwords for better security
+email.address=your-email@gmail.com
+email.password=YOUR_APP_PASSWORD_HERE
+
+# Bot Behavior Settings
+email.max_body_length=3000
+email.fetch_timeout=30
+
+# Authorized Users (comma-separated list of Telegram chat IDs)
+telegram.authorized_chat_ids=YOUR_CHAT_ID_HERE
+
+# Logging Configuration
+log.level=INFO
+log.format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+
+# Common IMAP Server Settings (for reference):
+# Gmail: imap.gmail.com:993
+# Outlook: outlook.office365.com:993
+# Yahoo: imap.mail.yahoo.com:993
+# Apple iCloud: imap.mail.me.com:993
