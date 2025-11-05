@@ -1,5 +1,5 @@
-# Use Python 3.9 slim image
-FROM python:3.9-slim
+# Use Python 3.12 slim image for latest features and security updates
+FROM python:3.12-slim
 
 # Set working directory
 WORKDIR /app
@@ -7,6 +7,7 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV TZ=Asia/Singapore  # Set timezone for container
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -19,13 +20,14 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY telegram_email_bot.py .
+COPY . .
 
-# Copy configuration template (actual config should be mounted)
-COPY config.properties.template .
+# Create necessary directories
+RUN mkdir -p logs
 
 # Create a non-root user for security
-RUN useradd --create-home --shell /bin/bash app
+RUN useradd --create-home --shell /bin/bash app && \
+    chown -R app:app /app
 USER app
 
 # Expose port (not needed for this bot, but good practice)

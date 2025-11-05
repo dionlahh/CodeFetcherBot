@@ -8,10 +8,10 @@ services:
     container_name: telegram-email-bot
     restart: unless-stopped
     volumes:
-      # Mount the configuration file
-      - ./config.properties:/app/config.properties:ro
-      # Optional: Mount logs directory
-      - ./logs:/app/logs
+      # Mount the configuration file from a specific location
+      - /opt/codefetcherbot/config.properties:/app/config.properties:ro
+      # Mount logs to a persistent location
+      - /opt/codefetcherbot/logs:/app/logs
     environment:
       # Optional: Override config with environment variables
       - PYTHONUNBUFFERED=1
