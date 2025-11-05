@@ -37,9 +37,12 @@ def main():
         email_address = config.get('email.address')
         email_password = config.get('email.password')
         
-        # Print all config values for debugging
+        # Print all config values for debugging (masking sensitive data)
         logger.info("Loaded configuration values:")
-        logger.info(f"Bot token: {telegram_bot_token}")
+        logger.info(f"Bot token: {'*' * 20}")  # Don't log the actual token
+        logger.info(f"Email server: {email_server}")
+        logger.info(f"Email port: {email_port}")
+        logger.info(f"Email address: {email_address}")
         logger.info(f"Authorized chat IDs: {config.get('telegram.authorized_chat_ids')}")
         
         # Validate configuration

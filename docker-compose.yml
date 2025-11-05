@@ -7,14 +7,27 @@ services:
       dockerfile: Dockerfile
     container_name: telegram-email-bot
     restart: unless-stopped
+    configs:
+      - source: codefetcherbot_config
+        target: /app/config.properties
     volumes:
-      # Mount the configuration file from a specific location
-      - /opt/codefetcherbot/config.properties:/app/config.properties:ro
       # Mount logs to a persistent location
-      - /opt/codefetcherbot/logs:/app/logs
+      - codefetcherbot_logs:/app/logs
     environment:
-      # Optional: Override config with environment variables
       - PYTHONUNBUFFERED=1
+      # Telegram settings
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_AUTHORIZED_CHAT_IDS=${TELEGRAM_AUTHORIZED_CHAT_IDS}
+      # Email settings
+      - EMAIL_SERVER=imap.gmail.com
+      - EMAIL_PORT=993
+      - EMAIL_USE_SSL=true
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      # Bot settings
+      - EMAIL_MAX_BODY_LENGTH=3000
+      - EMAIL_FETCH_TIMEOUT=30
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     networks:
       - telegram-bot-network
     # Optional: Add resource limits
@@ -38,7 +51,11 @@ networks:
   telegram-bot-network:
     driver: bridge
 
-# Optional: Add volumes for persistent data
+configs:
+  codefetcherbot_config:
+    external: true
+    name: codefetcherbot_config
+
 volumes:
-  bot-logs:
+  codefetcherbot_logs:
     driver: local
