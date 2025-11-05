@@ -2,32 +2,16 @@ version: "3.8"
 
 services:
   telegram-email-bot:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: dionlahh/codefetcherbot:latest
     container_name: telegram-email-bot
     restart: unless-stopped
-    configs:
-      - source: codefetcherbot_config
-        target: /app/config.properties
     volumes:
+      # Mount the configuration file
+      - ./config.properties:/app/config.properties:ro
       # Mount logs to a persistent location
-      - codefetcherbot_logs:/app/logs
+      - ./logs:/app/logs
     environment:
       - PYTHONUNBUFFERED=1
-      # Telegram settings
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - TELEGRAM_AUTHORIZED_CHAT_IDS=${TELEGRAM_AUTHORIZED_CHAT_IDS}
-      # Email settings
-      - EMAIL_SERVER=imap.gmail.com
-      - EMAIL_PORT=993
-      - EMAIL_USE_SSL=true
-      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-      # Bot settings
-      - EMAIL_MAX_BODY_LENGTH=3000
-      - EMAIL_FETCH_TIMEOUT=30
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     networks:
       - telegram-bot-network
     # Optional: Add resource limits
@@ -51,11 +35,6 @@ networks:
   telegram-bot-network:
     driver: bridge
 
-configs:
-  codefetcherbot_config:
-    external: true
-    name: codefetcherbot_config
-
 volumes:
-  codefetcherbot_logs:
+  bot-logs:
     driver: local
