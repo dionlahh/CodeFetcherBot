@@ -1,2 +1,4 @@
 python-telegram-bot==20.7
-configparser
+configparser>=5.3.0
+tzdata>=2023.3  # Required for timezone support (used in telegram_bot.py for SGT)
+aiohttp>=3.8.6  # Required by python-telegram-bot for async operations
