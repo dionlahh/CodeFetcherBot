@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   telegram-email-bot:
-    image: dionlahh/codefetcherbot:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: telegram-email-bot
     restart: unless-stopped
     volumes:
