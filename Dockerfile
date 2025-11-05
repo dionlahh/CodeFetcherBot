@@ -39,4 +39,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import sys; sys.exit(0)"
 
 # Run the application
-CMD ["python", "telegram_email_bot.py"]
+CMD ["python", "main.py"]
